@@ -1,5 +1,7 @@
-﻿using ECommerceAPI.Application.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using ECommerceAPI.Application.Abstractions;
 using ECommerceAPI.Persistence.Concretes;
+using ECommerceAPI.Persistence.Contexts;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,8 @@ namespace ECommerceAPI.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services) //Extension metod. Bunu da program.cs içine ekliyoruz.
         {
-            services.AddSingleton<IProductService, ProductService>(); //ProdcutService dön.
+            services.AddDbContext<ECommerceAPIDbContext>(options => options.UseNpgsql(Configuration.ConnectionString)); //Hangi db kullanılacaksa onu ekliyoruz. (Nuget üzerinden postgresql indirdik.)
+            services.AddSingleton<IProductService, ProductService>(); //ProductService dön.
 
         }
     }
